@@ -1,0 +1,38 @@
+.header {
+	width: 1490px;
+	margin: 20px auto;
+}
+.container {
+	width: 1490px;
+	margin: 0 auto;
+}
+.gridContainer {
+	float: left;
+	margin: 0 auto;
+	width: 1140px;
+}
+.toolbox {
+	float: left;
+	margin-right: 10px;
+	width: 160px;
+}
+.toolbox input {
+	float: left;
+	width: 100%;
+	border-radius: 5px;
+	height: 3em;
+	margin: 0 3px 3px 3px;
+}
+.toolbox input:not(:first-child) {
+	margin: 3px;
+}
+.properties {
+	float: left;
+	margin-left: 10px;
+	width: 170px;
+}
+
+.properties span, .properties input {
+	float: left;
+	width: 97%;
+}

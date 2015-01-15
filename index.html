@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Site Builder</title>
+
+	<script type="text/javascript" src="./js/libs/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="./js/libs/jquery.gridster.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $(".gridster ul").gridster({
+		        widget_margins: [6, 6],
+		        widget_base_dimensions: [80, 65],
+		        min_rows: 1,
+		        min_cols: 12,
+		        resize: {
+		            enabled: true
+		        }
+		    });
+
+		    $(document).on("click", ".gridster ul li", function() {
+		    	$(this).click(function(){
+		    		setActive(this);
+		    	});
+		    });
+
+		    $("#add_Label").click(function(){
+		    	var gridster = $(".gridster ul").gridster().data('gridster');
+		    	var widget = gridster.add_widget('<li style="background-color:red;"></li>', 3, 1);		    	
+
+		    	addClickHandler(widget);
+		    	setActive(widget);
+		    });
+		    $("#add_Input_Text").click(function(){
+		    	var gridster = $(".gridster ul").gridster().data('gridster');
+		    	var widget = gridster.add_widget('<li>' +
+					    		                     '<div class="containerHelper">' +
+					    		                         '<div class="helper">' +
+					    		                             '<div class="textbox">' +
+					    		                             '</div>' +
+					    		                         '</div>' +
+					    		                     '</div>' +
+					    		                     '<div class="typeDefinitions" data-css-class="textbox" data-ng-bind="naam"></div>' + 
+					    		                 '</li>', 3, 1);
+		    	addClickHandler(widget);
+		    	setActive(widget);
+		    });
+		    $(".properties input").blur(function(){
+		    	updateProperties();
+		    });
+		});
+		function addClickHandler (widget) {
+			$(widget).click(function() {
+				$(":focus").blur();
+				setActive(this);
+			});
+		}
+		function setActive (target) {
+			$(".active").each(function(){
+	    		$(this).removeClass("active");
+	    	});
+	    	$(target).addClass("active");
+	    	updatePropertiesWindow();
+		}
+		function updatePropertiesWindow () {
+			var typeDefinitions = $("li.active div.typeDefinitions");
+		
+			$(".properties #css_class").val(typeDefinitions.data("cssClass"));
+			$(".properties #ng_bind").val(typeDefinitions.data("ngBind"));
+		}
+		function updateProperties() {
+			var typeDefinitions = $("li.active div.typeDefinitions");
+
+			typeDefinitions.data("cssClass", $(".properties #css_class").val());
+			typeDefinitions.data("ngBind", $(".properties #ng_bind").val());
+		}
+	</script>
+
+	<link rel="stylesheet" type="text/css" href="./css/general.css">
+	<link rel="stylesheet" type="text/css" href="./css/jquery.gridster.css">
+	<link rel="stylesheet" type="text/css" href="./css/controls.css">
+</head>
+<body>
+	<div class="header">
+		<h2>Module-Builder</h2>
+		<hr />
+	</div>
+	<div class="container">
+		<div class="toolbox">
+			<div>
+				Toolbox
+				<hr />
+			</div>
+			<input type="button" value="add label" id="add_Label"/>
+			<input type="button" value="add textbox" id="add_Input_Text"/>
+		</div>
+		<div class="gridContainer">
+			<div>
+				Layout
+				<hr />
+			</div>
+			<div class="gridster">
+		    	<ul>
+		        </ul>
+		    </div>
+		</div>
+	    <div class="properties">
+	    	<div>
+				Properties
+				<hr />
+			</div>
+	    	<span>CSS-Class</span>
+	    	<input type="text" id="css_class" />
+	    	<span>Dataservice value</span>
+	    	<input type="text" id="ng_bind" />
+	    </div>
+    </div>
+</body>
+</html>
